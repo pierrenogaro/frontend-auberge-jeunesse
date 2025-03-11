@@ -7,11 +7,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, CommonModule],
-  template: `
-    <app-navbar></app-navbar>
-    <router-outlet></router-outlet>
-  `
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+
 })
-export class AppComponent {
-  title = 'Auberge Jeunesse';
-}
+export class AppComponent {}
