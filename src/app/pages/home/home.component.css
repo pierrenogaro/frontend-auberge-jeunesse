@@ -1,0 +1,45 @@
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.bg-light {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  border-left: 5px solid #6c757d;
+}
+
+.card-title {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.display-4 {
+  color: #343a40;
+  font-weight: 700;
+}
+
+.lead {
+  color: #6c757d;
+  font-size: 1.3rem;
+}
+
+.col-md-4:nth-child(1) .card {
+  border-top: 3px solid #007bff;
+}
+
+.col-md-4:nth-child(2) .card {
+  border-top: 3px solid #28a745;
+}
+
+.col-md-4:nth-child(3) .card {
+  border-top: 3px solid #fd7e14;
+}
