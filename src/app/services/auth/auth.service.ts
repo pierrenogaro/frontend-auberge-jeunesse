@@ -17,7 +17,7 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:42081/';
+  private apiUrl = 'http://127.0.0.1:34573/';
   private tokenKey = 'auth_token';
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
 
@@ -67,7 +67,7 @@ export class AuthService {
     return this.hasToken();
   }
 
-  getCurrentUser(): string | null {
+  getCurrentUser(): { username: string, roles: string[] } | null {
     const token = this.getToken();
     if (!token) return null;
 
@@ -75,7 +75,10 @@ export class AuthService {
       const payload = token.split('.')[1];
       const decodedPayload = atob(payload);
       const parsedPayload = JSON.parse(decodedPayload);
-      return parsedPayload.username;
+      return {
+        username: parsedPayload.username,
+        roles: parsedPayload.roles || []
+      };
     } catch (e) {
       return null;
     }

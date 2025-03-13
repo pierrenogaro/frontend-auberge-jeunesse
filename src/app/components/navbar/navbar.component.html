@@ -9,6 +9,12 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/rooms" routerLinkActive="active">Rooms</a>
+        </li>
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <a class="nav-link" routerLink="/create-room" routerLinkActive="active">Create Room</a>
+        </li>
       </ul>
 
       <ul class="navbar-nav">

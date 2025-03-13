@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -20,7 +20,8 @@ export class NavbarComponent implements OnInit {
     this.authService.isAuthenticated().subscribe(isAuth => {
       this.isAuthenticated = isAuth;
       if (isAuth) {
-        this.username = this.authService.getCurrentUser();
+        const currentUser = this.authService.getCurrentUser();
+        this.username = currentUser ? currentUser.username : null;
       }
     });
   }
