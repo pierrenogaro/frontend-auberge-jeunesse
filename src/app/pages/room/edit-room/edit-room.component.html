@@ -1,0 +1,111 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">Edit Room</h3>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading && !errorMessage" class="text-center my-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading room details...</p>
+          </div>
+
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <form [formGroup]="roomForm" (ngSubmit)="onSubmit()" *ngIf="!loading || errorMessage">
+            <div class="mb-3">
+              <label for="name" class="form-label">Room Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                [ngClass]="{'is-invalid': roomForm.get('name')?.touched && roomForm.get('name')?.invalid}"
+              >
+              <div class="invalid-feedback" *ngIf="roomForm.get('name')?.touched && roomForm.get('name')?.errors?.['required']">
+                Room name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="capacity" class="form-label">Capacity</label>
+              <input
+                type="number"
+                class="form-control"
+                id="capacity"
+                formControlName="capacity"
+                [ngClass]="{'is-invalid': roomForm.get('capacity')?.touched && roomForm.get('capacity')?.invalid}"
+              >
+              <div class="invalid-feedback" *ngIf="roomForm.get('capacity')?.touched && roomForm.get('capacity')?.errors?.['required']">
+                Capacity is required
+              </div>
+              <div class="invalid-feedback" *ngIf="roomForm.get('capacity')?.touched && roomForm.get('capacity')?.errors?.['min']">
+                Capacity must be at least 1
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="type" class="form-label">Room Type</label>
+              <select
+                class="form-select"
+                id="type"
+                formControlName="type"
+                [ngClass]="{'is-invalid': roomForm.get('type')?.touched && roomForm.get('type')?.invalid}"
+              >
+                <option value="">Select a room type</option>
+                <option value="standard">Standard</option>
+                <option value="dormitory">Dormitory</option>
+                <option value="private">Private</option>
+                <option value="family">Family</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="roomForm.get('type')?.touched && roomForm.get('type')?.errors?.['required']">
+                Room type is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                rows="3"
+                formControlName="description"
+                [ngClass]="{'is-invalid': roomForm.get('description')?.touched && roomForm.get('description')?.invalid}"
+              ></textarea>
+              <div class="invalid-feedback" *ngIf="roomForm.get('description')?.touched && roomForm.get('description')?.errors?.['required']">
+                Description is required
+              </div>
+            </div>
+
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="isAvailable"
+                formControlName="isAvailable"
+              >
+              <label class="form-check-label" for="isAvailable">Available for booking</label>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" routerLink="/rooms">Cancel</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="roomForm.invalid || loading"
+              >
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                Update Room
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

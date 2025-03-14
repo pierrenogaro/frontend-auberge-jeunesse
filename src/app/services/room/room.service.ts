@@ -16,7 +16,7 @@ export interface Room {
   providedIn: 'root'
 })
 export class RoomService {
-  private apiUrl = 'http://127.0.0.1:34573/api';
+  private apiUrl = 'http://127.0.0.1:36651/api';
 
   constructor(private http: HttpClient) {}
 
@@ -26,5 +26,23 @@ export class RoomService {
 
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(`${this.apiUrl}/rooms`);
+  }
+
+  getRoom(id: number): Observable<Room> {
+    return this.http.get<Room>(`${this.apiUrl}/rooms/${id}`);
+  }
+
+  updateRoom(id: number | undefined, room: Room): Observable<Room> {
+    if (!id) {
+      throw new Error('Room ID is required for update');
+    }
+    return this.http.put<Room>(`${this.apiUrl}/edit/room/${id}`, room);
+  }
+
+  deleteRoom(id: number | undefined): Observable<any> {
+    if (!id) {
+      throw new Error('Room ID is required for deletion');
+    }
+    return this.http.delete<any>(`${this.apiUrl}/delete/room/${id}`);
   }
 }

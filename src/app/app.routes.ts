@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import {CreateRoomComponent} from './pages/room/create-room/create-room.component';
 import {RoomListComponent} from './pages/room/room-list/room-list.component';
+import {EditRoomComponent} from './pages/room/edit-room/edit-room.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -12,5 +13,6 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'create-room', component: CreateRoomComponent, canActivate: [authGuard] },
   { path: 'rooms', component: RoomListComponent },
+  { path: 'edit-room/:id', component: EditRoomComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];
