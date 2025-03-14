@@ -17,7 +17,7 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:36651/';
+  private apiUrl = 'https://auberge-jeunesse.pierrenogaro.com/';
   private tokenKey = 'auth_token';
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
 

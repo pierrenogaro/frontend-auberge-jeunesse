@@ -16,7 +16,7 @@ export interface Room {
   providedIn: 'root'
 })
 export class RoomService {
-  private apiUrl = 'http://127.0.0.1:36651/api';
+  private apiUrl = 'https://auberge-jeunesse.pierrenogaro.com/api';
 
   constructor(private http: HttpClient) {}
 
