@@ -16,6 +16,7 @@ export class BedListComponent implements OnInit {
   loading = true;
   errorMessage = '';
   isAuthenticated = false;
+  canAccessAdmin = false;
   deleteLoading = false;
 
   constructor(private bedService: BedService, private authService: AuthService) {}
@@ -24,6 +25,9 @@ export class BedListComponent implements OnInit {
     this.loadBeds();
     this.authService.isAuthenticated().subscribe(isAuth => {
       this.isAuthenticated = isAuth;
+      if (isAuth) {
+        this.canAccessAdmin = this.authService.canAccessAdminFeatures();
+      }
     });
   }
 

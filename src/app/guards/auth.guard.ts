@@ -13,3 +13,27 @@ export const authGuard: CanActivateFn = () => {
   router.navigate(['/login']);
   return false;
 };
+
+export const adminGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isCurrentlyAuthenticated() && authService.isAdmin()) {
+    return true;
+  }
+
+  router.navigate(['/']);
+  return false;
+};
+
+export const employeeGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isCurrentlyAuthenticated() && authService.canAccessAdminFeatures()) {
+    return true;
+  }
+
+  router.navigate(['/']);
+  return false;
+};

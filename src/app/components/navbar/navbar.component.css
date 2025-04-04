@@ -1,26 +1,32 @@
 .navbar {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #2c3e50 !important;
+  padding: 12px 0;
 }
 
 .navbar-brand {
   font-weight: 700;
   letter-spacing: 1px;
+  font-size: 1.4rem;
+  color: #ffffff !important;
 }
 
 .navbar-brand:hover {
-  color: #17a2b8 !important;
+  color: #3498db !important;
   transition: color 0.3s ease;
 }
 
 .nav-link {
   font-weight: 500;
-  margin: 0 5px;
+  margin: 0 8px;
   position: relative;
   transition: color 0.3s ease;
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 8px 10px !important;
 }
 
 .nav-link:hover {
-  color: #17a2b8 !important;
+  color: #3498db !important;
 }
 
 .nav-link.active {
@@ -30,9 +36,49 @@
 .nav-link.active::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: 0;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #17a2b8;
+  background-color: #3498db;
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px 0;
+}
+
+.dropdown-item {
+  padding: 8px 20px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f8fe;
+  color: #3498db;
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 10px;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #3498db;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  font-weight: bold;
 }

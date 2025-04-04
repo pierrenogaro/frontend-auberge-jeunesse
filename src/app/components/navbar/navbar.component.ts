@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class NavbarComponent implements OnInit {
   isAuthenticated = false;
+  canAccessAdmin = false;
   username: string | null = null;
 
   constructor(private authService: AuthService) {}
@@ -22,6 +23,10 @@ export class NavbarComponent implements OnInit {
       if (isAuth) {
         const currentUser = this.authService.getCurrentUser();
         this.username = currentUser ? currentUser.username : null;
+
+        this.canAccessAdmin = this.authService.canAccessAdminFeatures();
+      } else {
+        this.canAccessAdmin = false;
       }
     });
   }

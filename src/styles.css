@@ -1,1 +1,55 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f2f5;
+}
+
+.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.card {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: white;
+  border-left: 4px solid #3498db;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+hr {
+  border-top: 2px solid #e9ecef;
+  margin: 1.5rem 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+p, .card-text {
+  color: #4a5568;
+}
+
+.badge.bg-warning {
+  background-color: #f39c12 !important;
+  color: white;
+  font-weight: 500;
+}
+
+.badge.bg-success {
+  background-color: #2ecc71 !important;
+  font-weight: 500;
+}

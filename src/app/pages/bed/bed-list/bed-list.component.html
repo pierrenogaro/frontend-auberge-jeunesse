@@ -38,7 +38,7 @@
           <h6 class="card-subtitle mb-2 text-muted">Number: {{ bed.number }}</h6>
           <p class="card-text" *ngIf="bed.room">Room: {{ bed.room.name }}</p>
 
-          <div class="d-flex justify-content-between mt-3" *ngIf="isAuthenticated">
+          <div class="d-flex justify-content-between mt-3" *ngIf="isAuthenticated && canAccessAdmin">
             <button class="btn btn-sm"
                     [ngClass]="bed.isCleaned ? 'btn-outline-warning' : 'btn-outline-success'"
                     (click)="updateCleanStatus(bed.id, bed.isCleaned)">

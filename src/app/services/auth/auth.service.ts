@@ -83,4 +83,24 @@ export class AuthService {
       return null;
     }
   }
+
+  hasRole(role: string): boolean {
+    const user = this.getCurrentUser();
+    if (!user || !user.roles) {
+      return false;
+    }
+    return user.roles.includes(role);
+  }
+
+  isAdmin(): boolean {
+    return this.hasRole('ROLE_ADMIN');
+  }
+
+  isEmployee(): boolean {
+    return this.hasRole('ROLE_EMPLOYEE');
+  }
+
+  canAccessAdminFeatures(): boolean {
+    return this.isAdmin() || this.isEmployee();
+  }
 }
