@@ -23,7 +23,7 @@ export const routes: Routes = [
   { path: 'edit-room/:id', component: EditRoomComponent, canActivate: [employeeGuard] },
   { path: 'create-bed', component: CreateBedComponent, canActivate: [employeeGuard] },
   { path: 'edit-bed/:id', component: EditBedComponent, canActivate: [employeeGuard] },
-  { path: 'create-booking', component: CreateBookingComponent, canActivate: [employeeGuard] },
+  { path: 'create-booking', component: CreateBookingComponent},
 
   { path: '**', redirectTo: '' }
 ];
