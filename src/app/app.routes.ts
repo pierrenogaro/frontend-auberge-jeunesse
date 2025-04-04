@@ -9,6 +9,8 @@ import {BedListComponent} from './pages/bed/bed-list/bed-list.component';
 import {CreateBedComponent} from './pages/bed/create-bed/create-bed.component';
 import {EditBedComponent} from './pages/bed/edit-bed/edit-bed.component';
 import { authGuard } from './guards/auth.guard';
+import {BookingListComponent} from './pages/booking/booking-list/booking-list.component';
+import {CreateBookingComponent} from './pages/booking/create-booking/create-booking.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,5 +22,7 @@ export const routes: Routes = [
   { path: 'beds', component: BedListComponent },
   { path: 'create-bed', component: CreateBedComponent, canActivate: [authGuard] },
   { path: 'edit-bed/:id', component: EditBedComponent, canActivate: [authGuard] },
+  { path: 'create-booking', component: CreateBookingComponent, canActivate: [authGuard] },
+  { path: 'bookings', component: BookingListComponent },
   { path: '**', redirectTo: '' }
 ];

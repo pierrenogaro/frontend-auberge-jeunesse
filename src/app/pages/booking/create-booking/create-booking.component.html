@@ -1,0 +1,177 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">
+            <i class="bi bi-calendar-plus me-2"></i>New Booking
+          </h2>
+        </div>
+
+        <div class="card-body p-4">
+          <div *ngIf="success" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            Your booking has been created successfully!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-person"></i></span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    formControlName="name"
+                    [ngClass]="{'is-invalid': bookingForm.get('name')?.invalid && bookingForm.get('name')?.touched}"
+                    placeholder="Your full name"
+                    required
+                  >
+                  <div class="invalid-feedback">
+                    Please enter your full name
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    [ngClass]="{'is-invalid': bookingForm.get('email')?.invalid && bookingForm.get('email')?.touched}"
+                    placeholder="your.email@example.com"
+                    required
+                  >
+                  <div class="invalid-feedback">
+                    Please enter a valid email
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="phone"
+                    formControlName="phone"
+                    [ngClass]="{'is-invalid': bookingForm.get('phone')?.invalid && bookingForm.get('phone')?.touched}"
+                    placeholder="Phone number"
+                    required
+                  >
+                  <div class="invalid-feedback">
+                    Please enter a phone number
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="numberOfPeople" class="form-label">Number of People</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-people"></i></span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="numberOfPeople"
+                    formControlName="numberOfPeople"
+                    [ngClass]="{'is-invalid': bookingForm.get('numberOfPeople')?.invalid && bookingForm.get('numberOfPeople')?.touched}"
+                    min="1"
+                    placeholder="Number of travelers"
+                    required
+                  >
+                  <div class="invalid-feedback">
+                    Minimum 1 person
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="startDate" class="form-label">Arrival Date</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-calendar-check"></i></span>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="startDate"
+                    formControlName="startDate"
+                    [ngClass]="{'is-invalid': bookingForm.get('startDate')?.invalid && bookingForm.get('startDate')?.touched}"
+                    required
+                  >
+                  <div class="invalid-feedback">
+                    Please select an arrival date
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="endDate" class="form-label">Departure Date</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-calendar-x"></i></span>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="endDate"
+                    formControlName="endDate"
+                    [ngClass]="{'is-invalid': bookingForm.get('endDate')?.invalid && bookingForm.get('endDate')?.touched}"
+                    required
+                  >
+                  <div class="invalid-feedback">
+                    Please select a departure date
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="room" class="form-label">Select a Room</label>
+              <select
+                class="form-select"
+                id="room"
+                formControlName="room"
+                [ngClass]="{'is-invalid': bookingForm.get('room')?.invalid && bookingForm.get('room')?.touched}"
+                required
+              >
+                <option value="">Choose a room</option>
+                <option *ngFor="let room of rooms" [value]="room.id">
+                  {{ room.name }} ({{ room.type }}) - Capacity: {{ room.capacity }} people
+                </option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a room
+              </div>
+            </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ errorMessage }}
+            </div>
+
+            <div class="d-grid">
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg"
+                [disabled]="bookingForm.invalid || loading"
+              >
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                Book Now
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
