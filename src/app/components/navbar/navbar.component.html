@@ -14,19 +14,14 @@
             <a class="nav-link" routerLink="/beds" routerLinkActive="active">Beds</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/create-booking">Booking</a>
+            <a class="nav-link" routerLink="/create-booking" routerLinkActive="active">Booking</a>
           </li>
         </ng-container>
 
-        <li class="nav-item dropdown" *ngIf="isAuthenticated && canAccessAdmin">
-          <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Admin
+        <li class="nav-item" *ngIf="isAuthenticated && canAccessAdmin">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+            Employee Dashboard
           </a>
-          <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-            <li><a class="dropdown-item" routerLink="/create-room">Create Room</a></li>
-            <li><a class="dropdown-item" routerLink="/create-bed">Create Bed</a></li>
-            <li><a class="dropdown-item" routerLink="/bookings">Bookings List</a></li>
-          </ul>
         </li>
       </ul>
 

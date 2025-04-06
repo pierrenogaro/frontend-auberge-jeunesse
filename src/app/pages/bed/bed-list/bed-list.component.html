@@ -37,24 +37,6 @@
           <h5 class="card-title">{{ bed.bedNumber }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">Number: {{ bed.number }}</h6>
           <p class="card-text" *ngIf="bed.room">Room: {{ bed.room.name }}</p>
-
-          <div class="d-flex justify-content-between mt-3" *ngIf="isAuthenticated && canAccessAdmin">
-            <button class="btn btn-sm"
-                    [ngClass]="bed.isCleaned ? 'btn-outline-warning' : 'btn-outline-success'"
-                    (click)="updateCleanStatus(bed.id, bed.isCleaned)">
-              <i class="bi" [ngClass]="bed.isCleaned ? 'bi-x-circle' : 'bi-check-circle'"></i>
-              {{ bed.isCleaned ? 'Mark as Not Clean' : 'Mark as Clean' }}
-            </button>
-          </div>
-
-          <div class="d-flex justify-content-between mt-3" *ngIf="isAuthenticated">
-            <a [routerLink]="['/edit-bed', bed.id]" class="btn btn-sm btn-primary">
-              <i class="bi bi-pencil-square"></i> Edit
-            </a>
-            <button class="btn btn-sm btn-danger" (click)="deleteBed(bed.id)">
-              <i class="bi bi-trash"></i> Delete
-            </button>
-          </div>
         </div>
       </div>
     </div>

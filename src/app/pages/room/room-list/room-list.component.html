@@ -35,14 +35,6 @@
           <p *ngIf="room.beds && room.beds.length > 0" class="card-text">
             <small class="text-muted">Beds: {{ room.beds.length }}</small>
           </p>
-          <div class="d-flex justify-content-between mt-3" *ngIf="isAuthenticated">
-            <a [routerLink]="['/edit-room', room.id]" class="btn btn-sm btn-primary">
-              <i class="bi bi-pencil-square"></i> Edit
-            </a>
-            <button class="btn btn-sm btn-danger" (click)="deleteRoom(room.id)">
-              <i class="bi bi-trash"></i> Delete
-            </button>
-          </div>
         </div>
       </div>
     </div>

@@ -82,7 +82,10 @@
               {{ errorMessage }}
             </div>
 
-            <div class="d-grid gap-2">
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" routerLink="/admin">
+                Cancel
+              </button>
               <button
                 type="submit"
                 class="btn btn-primary"
@@ -91,8 +94,7 @@
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                 Create Bed
               </button>
-            </div>
-          </form>
+            </div>          </form>
         </div>
       </div>
     </div>

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { Bed, BedService } from '../../../services/bed/bed.service';
 import { Room, RoomService } from '../../../services/room/room.service';
 
 @Component({
   selector: 'app-create-bed',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './create-bed.component.html',
   styleUrl: './create-bed.component.css'
 })
