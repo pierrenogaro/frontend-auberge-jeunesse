@@ -65,10 +65,9 @@ export class EditBedComponent implements OnInit {
     this.loading = true;
     this.bedService.getBed(this.bedId).subscribe({
       next: (bed) => {
-        console.log('Loaded bed:', bed); // Pour le débogage
+        console.log('Loaded bed:', bed);
         this.currentBed = bed;
 
-        // Extraire l'ID de la chambre si c'est un objet
         let roomId: string | number = '';
         if (bed.room) {
           if (typeof bed.room === 'object' && bed.room.id) {
@@ -113,17 +112,19 @@ export class EditBedComponent implements OnInit {
       room: formData.room
     };
 
-    console.log('Sending bed data:', bedData);
-
     this.bedService.updateBed(this.bedId, bedData).subscribe({
-      next: () => {
-        this.router.navigate(['/beds']);
+      next: (updatedBed) => {
+        this.loading = false;
+
+        if (formData.room) {
+          this.router.navigate(['/room', formData.room]);
+        } else {
+          this.router.navigate(['/beds']);
+        }
       },
       error: (error) => {
         this.loading = false;
-        console.error('Error updating bed:', error);
         this.errorMessage = error.error?.error || 'An error occurred while updating the bed';
       }
     });
-  }
-}
+  }}

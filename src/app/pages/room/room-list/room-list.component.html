@@ -1,9 +1,9 @@
-<div class="container mt-5">
+<div class="container-fluid mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Rooms</h2>
   </div>
 
-  <div *ngIf="loading" class="text-center my-5">
+  <div *ngIf="loading && !selectedRoom" class="text-center my-5">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
@@ -14,12 +14,72 @@
     {{ errorMessage }}
   </div>
 
-  <div *ngIf="!loading && !errorMessage && rooms.length === 0" class="alert alert-info">
-    No rooms found. Click the "Add New Room" button to create your first room.
+  <div *ngIf="!loading && !errorMessage && !selectedRoom && rooms.length === 0" class="alert alert-info">
+    No rooms found.
   </div>
 
-  <div class="row" *ngIf="!loading && rooms.length > 0">
-    <div class="col-md-4 mb-4" *ngFor="let room of rooms">
+  <!-- Room Detail View -->
+  <div class="row mb-4" *ngIf="selectedRoom">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">{{ selectedRoom.name }}</h4>
+          <button type="button" class="btn btn-outline-light btn-sm" (click)="closeRoomDetails()">
+            <i class="bi bi-x-lg"></i> Close
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-8">
+              <h5>Room Details</h5>
+              <p><strong>Type:</strong> {{ selectedRoom.type }}</p>
+              <p><strong>Capacity:</strong> {{ selectedRoom.capacity }} people</p>
+              <p><strong>Status:</strong>
+                <span [ngClass]="{'text-success': selectedRoom.isAvailable, 'text-danger': !selectedRoom.isAvailable}">
+                  {{ selectedRoom.isAvailable ? 'Available' : 'Not Available' }}
+                </span>
+              </p>
+              <p><strong>Description:</strong> {{ selectedRoom.description }}</p>
+            </div>
+            <div class="col-md-4 d-flex flex-column justify-content-center align-items-end">
+              <div class="alert alert-danger mt-3" *ngIf="!selectedRoom.isAvailable">
+                <i class="bi bi-exclamation-triangle"></i> This room is currently unavailable for booking.
+              </div>
+            </div>
+          </div>
+
+          <h5 class="mt-4 mb-3">Beds in this Room</h5>
+          <div *ngIf="!selectedRoom.beds || selectedRoom.beds.length === 0" class="alert alert-info">
+            No beds found in this room.
+          </div>
+
+          <div class="row" *ngIf="selectedRoom.beds && selectedRoom.beds.length > 0">
+            <div class="col-md-4 mb-3" *ngFor="let bed of selectedRoom.beds">
+              <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <span [ngClass]="{'text-success': bed.isAvailable, 'text-danger': !bed.isAvailable}">
+                    <i [class]="bed.isAvailable ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+                    {{ bed.isAvailable ? 'Available' : 'Not Available' }}
+                  </span>
+                  <span class="badge" [ngClass]="bed.isCleaned ? 'bg-success' : 'bg-warning'">
+                    {{ bed.isCleaned ? 'Clean' : 'Needs Cleaning' }}
+                  </span>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ bed.bedNumber }}</h5>
+                  <p class="card-text">Bed #{{ bed.number }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rooms Grid View -->
+  <div class="row" *ngIf="!selectedRoom && !loading && rooms.length > 0">
+    <div class="col-12 mb-4" *ngFor="let room of rooms">
       <div class="card h-100">
         <div class="card-header d-flex justify-content-between align-items-center">
           <span [ngClass]="{'text-success': room.isAvailable, 'text-danger': !room.isAvailable}">
@@ -29,12 +89,31 @@
           <span class="badge bg-primary">{{ room.capacity }} People</span>
         </div>
         <div class="card-body">
-          <h5 class="card-title">{{ room.name }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Type: {{ room.type }}</h6>
-          <p class="card-text">{{ room.description }}</p>
-          <p *ngIf="room.beds && room.beds.length > 0" class="card-text">
-            <small class="text-muted">Beds: {{ room.beds.length }}</small>
-          </p>
+          <div class="row">
+            <div class="col-md-9">
+              <h5 class="card-title">{{ room.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Type: {{ room.type }}</h6>
+              <p class="card-text">{{ room.description }}</p>
+              <p *ngIf="room.beds && room.beds.length > 0" class="card-text">
+                <small class="text-muted">Beds: {{ room.beds.length }}</small>
+              </p>
+            </div>
+            <div class="col-md-3 d-flex flex-column justify-content-center align-items-end">
+              <div class="d-flex flex-column gap-2">
+                <button class="btn btn-outline-primary mb-2" (click)="viewRoomDetails(room)">
+                  <i class="bi bi-eye"></i> View Details
+                </button>
+
+                <a [routerLink]="['/create-booking']" [queryParams]="{roomId: room.id}"
+                   class="btn btn-success" *ngIf="room.isAvailable">
+                  <i class="bi bi-calendar-check"></i> Book Now
+                </a>
+                <div class="text-danger" *ngIf="!room.isAvailable">
+                  <i class="bi bi-x-circle"></i> Currently unavailable
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

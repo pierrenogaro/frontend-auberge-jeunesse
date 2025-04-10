@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RoomService, Room } from '../../../services/room/room.service';
-import {BookingService} from '../../../services/booking.service';
+import { BookingService } from '../../../services/booking.service';
 
 @Component({
   selector: 'app-create-booking',
@@ -18,12 +18,15 @@ export class CreateBookingComponent implements OnInit {
   loading = false;
   errorMessage = '';
   success = false;
+  roomPreselected = false;
+  selectedRoom: Room | null = null;
 
   constructor(
     private fb: FormBuilder,
     private bookingService: BookingService,
     private roomService: RoomService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.bookingForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -38,6 +41,34 @@ export class CreateBookingComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRooms();
+
+    this.route.queryParams.subscribe(params => {
+      if (params['roomId']) {
+        const roomId = parseInt(params['roomId'], 10);
+        if (!isNaN(roomId)) {
+          this.bookingForm.patchValue({
+            room: roomId
+          });
+
+          this.roomPreselected = true;
+
+          this.roomService.getRoom(roomId).subscribe({
+            next: (room) => {
+              this.selectedRoom = room;
+
+              if (room.capacity && room.capacity > 0) {
+                this.bookingForm.patchValue({
+                  numberOfPeople: room.capacity
+                });
+              }
+            },
+            error: (error) => {
+              this.errorMessage = 'Failed to load room details';
+            }
+          });
+        }
+      }
+    });
   }
 
   loadRooms(): void {
@@ -53,6 +84,9 @@ export class CreateBookingComponent implements OnInit {
 
   onSubmit(): void {
     if (this.bookingForm.invalid) {
+      Object.keys(this.bookingForm.controls).forEach(key => {
+        this.bookingForm.get(key)?.markAsTouched();
+      });
       return;
     }
 
@@ -68,9 +102,10 @@ export class CreateBookingComponent implements OnInit {
     this.bookingService.createBooking(bookingData).subscribe({
       next: (response) => {
         this.success = true;
+        this.loading = false;
         setTimeout(() => {
-          this.router.navigate(['/bookings']);
-        }, 1500);
+          this.router.navigate(['/']);
+        }, 2000);
       },
       error: (error) => {
         this.loading = false;

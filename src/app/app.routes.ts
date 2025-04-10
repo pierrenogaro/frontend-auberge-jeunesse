@@ -17,6 +17,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'rooms', component: RoomListComponent, canActivate: [authGuard] },
+  { path: 'room/:id', component: RoomListComponent, canActivate: [authGuard] }, // New route
   { path: 'beds', component: BedListComponent, canActivate: [authGuard] },
   { path: 'create-room', component: CreateRoomComponent, canActivate: [employeeGuard] },
   { path: 'edit-room/:id', component: EditRoomComponent, canActivate: [employeeGuard] },

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import {Room, RoomService} from '../../../services/room/room.service';
-import {AuthService} from '../../../services/auth/auth.service';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { Room, RoomService } from '../../../services/room/room.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-room-list',
@@ -17,13 +17,25 @@ export class RoomListComponent implements OnInit {
   errorMessage = '';
   isAuthenticated = false;
   deleteLoading = false;
+  selectedRoom: Room | null = null;
 
-  constructor(private roomService: RoomService, private authService: AuthService) {}
+  constructor(
+    private roomService: RoomService,
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.loadRooms();
     this.authService.isAuthenticated().subscribe(isAuth => {
       this.isAuthenticated = isAuth;
+    });
+
+    this.route.paramMap.subscribe(params => {
+      const roomId = params.get('id');
+      if (roomId) {
+        this.loadRoomDetails(parseInt(roomId, 10));
+      }
     });
   }
 
@@ -41,6 +53,19 @@ export class RoomListComponent implements OnInit {
     });
   }
 
+  loadRoomDetails(roomId: number): void {
+    if (!roomId) return;
+
+    this.roomService.getRoom(roomId).subscribe({
+      next: (room) => {
+        this.selectedRoom = room;
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to load room details';
+      }
+    });
+  }
+
   deleteRoom(id: number | undefined): void {
     if (!id) return;
 
@@ -50,6 +75,9 @@ export class RoomListComponent implements OnInit {
         next: () => {
           this.rooms = this.rooms.filter(room => room.id !== id);
           this.deleteLoading = false;
+          if (this.selectedRoom && this.selectedRoom.id === id) {
+            this.selectedRoom = null;
+          }
         },
         error: (error) => {
           this.errorMessage = error.error?.error || 'Failed to delete room';
@@ -57,5 +85,17 @@ export class RoomListComponent implements OnInit {
         }
       });
     }
+  }
+
+  viewRoomDetails(room: Room): void {
+    this.selectedRoom = room;
+  }
+
+  closeRoomDetails(): void {
+    this.selectedRoom = null;
+  }
+
+  canManageRooms(): boolean {
+    return this.authService.canAccessAdminFeatures();
   }
 }

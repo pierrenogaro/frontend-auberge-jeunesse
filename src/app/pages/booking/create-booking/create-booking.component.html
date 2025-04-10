@@ -5,6 +5,7 @@
         <div class="card-header bg-primary text-white">
           <h2 class="mb-0">
             <i class="bi bi-calendar-plus me-2"></i>New Booking
+            <span *ngIf="selectedRoom"> - {{ selectedRoom.name }}</span>
           </h2>
         </div>
 
@@ -13,6 +14,12 @@
             <i class="bi bi-check-circle me-2"></i>
             Your booking has been created successfully!
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <div *ngIf="selectedRoom" class="alert alert-info mb-4">
+            <i class="bi bi-info-circle me-2"></i>
+            You are booking <strong>{{ selectedRoom.name }}</strong> ({{ selectedRoom.type }}).
+            Capacity: {{ selectedRoom.capacity }} people.
           </div>
 
           <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
@@ -142,6 +149,7 @@
                 id="room"
                 formControlName="room"
                 [ngClass]="{'is-invalid': bookingForm.get('room')?.invalid && bookingForm.get('room')?.touched}"
+                [disabled]="roomPreselected"
                 required
               >
                 <option value="">Choose a room</option>
@@ -152,6 +160,9 @@
               <div class="invalid-feedback">
                 Please select a room
               </div>
+              <div class="form-text" *ngIf="roomPreselected">
+                Room selection is locked because you accessed this page from a specific room.
+              </div>
             </div>
 
             <div *ngIf="errorMessage" class="alert alert-danger mt-3">
@@ -159,14 +170,14 @@
               {{ errorMessage }}
             </div>
 
-            <div class="d-grid">
+            <div class="d-grid mt-4">
               <button
                 type="submit"
                 class="btn btn-primary btn-lg"
                 [disabled]="bookingForm.invalid || loading"
               >
                 <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-                Book Now
+                <i class="bi bi-check-circle me-2"></i> Confirm Booking
               </button>
             </div>
           </form>

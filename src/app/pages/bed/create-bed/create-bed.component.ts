@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import {Router, RouterLink} from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { Bed, BedService } from '../../../services/bed/bed.service';
 import { Room, RoomService } from '../../../services/room/room.service';
 
@@ -18,12 +18,14 @@ export class CreateBedComponent implements OnInit {
   errorMessage = '';
   success = false;
   rooms: Room[] = [];
+  roomIdFromUrl: number | null = null;
 
   constructor(
     private fb: FormBuilder,
     private bedService: BedService,
     private roomService: RoomService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.bedForm = this.fb.group({
       number: [1, [Validators.required, Validators.min(1)]],
@@ -36,12 +38,31 @@ export class CreateBedComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRooms();
+
+    // Check if a room ID is provided in the URL
+    this.route.queryParams.subscribe(params => {
+      if (params['roomId']) {
+        this.roomIdFromUrl = parseInt(params['roomId'], 10);
+        if (!isNaN(this.roomIdFromUrl)) {
+          this.bedForm.patchValue({
+            room: this.roomIdFromUrl
+          });
+        }
+      }
+    });
   }
 
   loadRooms(): void {
     this.roomService.getRooms().subscribe({
       next: (rooms) => {
         this.rooms = rooms;
+
+        // If we have a room ID and rooms are loaded, update the form
+        if (this.roomIdFromUrl && this.roomIdFromUrl > 0) {
+          this.bedForm.patchValue({
+            room: this.roomIdFromUrl
+          });
+        }
       },
       error: (error) => {
         this.errorMessage = 'Failed to load rooms';
@@ -72,7 +93,11 @@ export class CreateBedComponent implements OnInit {
         this.success = true;
         this.loading = false;
         setTimeout(() => {
-          this.router.navigate(['/beds']);
+          if (this.roomIdFromUrl) {
+            this.router.navigate(['/room', this.roomIdFromUrl]);
+          } else {
+            this.router.navigate(['/beds']);
+          }
         }, 1500);
       },
       error: (error) => {
