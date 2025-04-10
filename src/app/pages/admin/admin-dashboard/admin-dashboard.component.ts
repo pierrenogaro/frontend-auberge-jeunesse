@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { Room, RoomService } from '../../../services/room/room.service';
 import { Bed, BedService } from '../../../services/bed/bed.service';
 import { Booking, BookingService } from '../../../services/booking.service';
+import { Event, EventService } from '../../../services/event/event.service';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class AdminDashboardComponent implements OnInit {
   rooms: Room[] = [];
   beds: Bed[] = [];
   bookings: Booking[] = [];
+  events: Event[] = [];
   loading = true;
   errorMessage = '';
   deleteLoading = false;
@@ -26,6 +28,7 @@ export class AdminDashboardComponent implements OnInit {
     private roomService: RoomService,
     private bedService: BedService,
     private bookingService: BookingService,
+    private eventService: EventService,
     private authService: AuthService
   ) {}
 
@@ -41,15 +44,16 @@ export class AdminDashboardComponent implements OnInit {
   loadAdminResources(): void {
     this.loading = true;
 
-    // Parallel loading of resources
     Promise.all([
       this.roomService.getRooms().toPromise(),
       this.bedService.getBeds().toPromise(),
-      this.bookingService.getBookings().toPromise()
-    ]).then(([rooms, beds, bookings]) => {
+      this.bookingService.getBookings().toPromise(),
+      this.eventService.getEvents().toPromise()
+    ]).then(([rooms, beds, bookings, events]) => {
       this.rooms = rooms || [];
       this.beds = beds || [];
       this.bookings = bookings || [];
+      this.events = events || [];
       this.loading = false;
     }).catch(error => {
       this.errorMessage = 'Failed to load admin resources';
@@ -105,6 +109,24 @@ export class AdminDashboardComponent implements OnInit {
         },
         error: (error) => {
           this.errorMessage = error.error?.error || 'Unable to delete booking';
+          this.deleteLoading = false;
+        }
+      });
+    }
+  }
+
+  deleteEvent(id: number | undefined): void {
+    if (!id) return;
+
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.deleteLoading = true;
+      this.eventService.deleteEvent(id).subscribe({
+        next: () => {
+          this.events = this.events.filter(event => event.id !== id);
+          this.deleteLoading = false;
+        },
+        error: (error) => {
+          this.errorMessage = error.error?.error || 'Failed to delete event';
           this.deleteLoading = false;
         }
       });

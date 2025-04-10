@@ -1,0 +1,79 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-warning text-white">
+          <h3 class="mb-0">
+            <i class="bi bi-calendar-plus me-2"></i>
+            Create New Event
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success" *ngIf="success">
+            <i class="bi bi-check-circle me-2"></i>
+            Event created successfully! Redirecting to events list...
+          </div>
+
+          <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="title" class="form-label">Event Title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                formControlName="title"
+                [ngClass]="{'is-invalid': eventForm.get('title')?.touched && eventForm.get('title')?.invalid}"
+                placeholder="Enter event title"
+              >
+              <div class="invalid-feedback" *ngIf="eventForm.get('title')?.touched && eventForm.get('title')?.errors?.['required']">
+                Event title is required
+              </div>
+              <div class="invalid-feedback" *ngIf="eventForm.get('title')?.touched && eventForm.get('title')?.errors?.['minlength']">
+                Event title must be at least 3 characters
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                rows="5"
+                formControlName="description"
+                [ngClass]="{'is-invalid': eventForm.get('description')?.touched && eventForm.get('description')?.invalid}"
+                placeholder="Enter event description"
+              ></textarea>
+              <div class="invalid-feedback" *ngIf="eventForm.get('description')?.touched && eventForm.get('description')?.errors?.['required']">
+                Event description is required
+              </div>
+              <div class="invalid-feedback" *ngIf="eventForm.get('description')?.touched && eventForm.get('description')?.errors?.['minlength']">
+                Event description must be at least 10 characters
+              </div>
+            </div>
+
+            <div class="alert alert-danger" *ngIf="errorMessage">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              {{ errorMessage }}
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" routerLink="/events">
+                <i class="bi bi-arrow-left me-1"></i>
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-warning text-white"
+                [disabled]="eventForm.invalid || loading"
+              >
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                <i *ngIf="!loading" class="bi bi-save me-1"></i>
+                Create Event
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

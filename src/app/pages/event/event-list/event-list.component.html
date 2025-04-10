@@ -1,0 +1,62 @@
+<div class="container-fluid mt-5">
+  <div class="events-header p-5 mb-4 rounded" style="background-image: url('https://img.pikbest.com/wp/202346/business-leadership-strategic-in-3d-chess-banner_9738557.jpg!w700wp'); background-size: cover; background-position: center; height: 200px; position: relative;">
+    <div class="overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); border-radius: inherit;"></div>
+    <div class="position-relative text-white text-center">
+      <h1 class="display-4 fw-bold">Events :</h1>
+      <p class="lead">Join us for exciting activities !</p>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading events...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && !errorMessage && events.length === 0" class="alert alert-info">
+    <i class="bi bi-info-circle me-2"></i>
+    No events found. Stay tuned for upcoming activities at our hostel!
+    <div *ngIf="canAccessAdmin" class="mt-2">
+      <a routerLink="/create-event" class="btn btn-sm btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> Add your first event
+      </a>
+    </div>
+  </div>
+
+  <div class="row mb-4" *ngIf="selectedEvent">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-warning text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">{{ selectedEvent.title }}</h4>
+          <button type="button" class="btn btn-outline-light btn-sm" (click)="closeEventDetails()">
+            <i class="bi bi-x-lg"></i> Close
+          </button>
+        </div>
+        <div class="card-body">
+          <p class="lead">{{ selectedEvent.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!selectedEvent && !loading && events.length > 0">
+    <div class="col-12 mb-4" *ngFor="let event of events">
+      <div class="card h-100 event-card">
+        <div class="card-body">
+          <h5 class="card-title">{{ event.title }}</h5>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <button class="btn btn-sm btn-outline-warning" (click)="viewEventDetails(event)">
+              <i class="bi bi-eye me-1"></i> View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
