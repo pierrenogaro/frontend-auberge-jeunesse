@@ -26,9 +26,9 @@ export const routes: Routes = [
   { path: 'edit-room/:id', component: EditRoomComponent, canActivate: [employeeGuard] },
   { path: 'create-bed', component: CreateBedComponent, canActivate: [employeeGuard] },
   { path: 'edit-bed/:id', component: EditBedComponent, canActivate: [employeeGuard] },
-  { path: 'create-booking', component: CreateBookingComponent},
+  { path: 'create-booking', component: CreateBookingComponent, canActivate: [authGuard]},
   {path: 'admin', component: AdminDashboardComponent, canActivate: [authGuard, employeeGuard]},
-  { path: 'events', component: EventListComponent },
+  { path: 'events', component: EventListComponent, canActivate: [authGuard] },
   { path: 'create-event', component: CreateEventComponent, canActivate: [employeeGuard] },
   { path: 'edit-event/:id', component: EditEventComponent, canActivate: [employeeGuard] },
 

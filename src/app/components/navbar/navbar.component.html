@@ -12,11 +12,13 @@
           </li>
         </ng-container>
 
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/events" routerLinkActive="active">
-            <i class="bi bi-calendar-event"></i> Events
-          </a>
-        </li>
+        <ng-container *ngIf="isAuthenticated">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/events" routerLinkActive="active">
+              <i class="bi bi-calendar-event"></i> Events
+            </a>
+          </li>
+        </ng-container>
 
         <li class="nav-item" *ngIf="isAuthenticated && canAccessAdmin">
           <a class="nav-link" routerLink="/admin" routerLinkActive="active">
