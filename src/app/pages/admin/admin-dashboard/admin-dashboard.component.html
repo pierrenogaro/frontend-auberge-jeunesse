@@ -96,7 +96,6 @@
               <thead class="table-light">
               <tr>
                 <th>Bed Number</th>
-                <th>Room</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -104,15 +103,14 @@
               <tbody>
               <tr *ngFor="let bed of beds">
                 <td>{{ bed.bedNumber }}</td>
-                <td>{{ bed.room?.name || 'Unassigned' }}</td>
                 <td>
-                    <span class="badge"
-                          [ngClass]="{
-                        'bg-success': bed.isAvailable,
-                        'bg-danger': !bed.isAvailable
-                      }">
-                      {{ bed.isAvailable ? 'Available' : 'Occupied' }}
-                    </span>
+                <span class="badge"
+                      [ngClass]="{
+                    'bg-success': bed.isAvailable,
+                    'bg-danger': !bed.isAvailable
+                  }">
+                  {{ bed.isAvailable ? 'Available' : 'Occupied' }}
+                </span>
                 </td>
                 <td>
                   <div class="btn-group btn-group-sm" role="group">
@@ -131,6 +129,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="col-md-6">
       <div class="card shadow-sm border-0 h-100">
